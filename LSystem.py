@@ -51,7 +51,7 @@ class LSystem:
         """
 
         color = 0
-        colorChange = 255 / len(self.axiom)
+        colorChange = 255 / (len(self.axiom)+10)
         for char in self.axiom:
             if char == 'F' or char == 'G' or char == 'A' or char == 'B':
                 # set x2 and y2
