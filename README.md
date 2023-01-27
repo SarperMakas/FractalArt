@@ -7,4 +7,6 @@ Enter index of the fractal
 
 Enter width, height, start x and y position
 
+# Note:
+Version 2 is under development
 
