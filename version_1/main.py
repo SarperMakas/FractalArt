@@ -21,6 +21,7 @@ class Main:
 
         self.rules: Dict[str, Rule] = {}
 
+        self.ratio = 0.5
         self.systemNo: str = self.getSystem()
         self.system: LSystem = None
         self.lineLength = 40
@@ -52,11 +53,12 @@ class Main:
                 pass
         while True:
             try:
-                nums = list(map(int, input("Enter x and y:").split(" ")))
-                self.width = nums[0]
-                self.height = nums[1]
-                self.startX = nums[2]
-                self.startY = nums[3]
+                nums = list(map(float, input("Enter width, height, x, y and ratio:").split(" ")))
+                self.width = int(nums[0])
+                self.height = int(nums[1])
+                self.startX = int(nums[2])
+                self.startY = int(nums[3])
+                self.ratio = nums[4]
                 break
             except:
                 pass
@@ -88,7 +90,7 @@ class Main:
                               startX=self.startX,
                               startY=self.startY,
                               length=self.lineLength,
-                              ratio=0.75)
+                              ratio=self.ratio)
 
 
     def event(self) -> None:
@@ -119,12 +121,12 @@ class Main:
         self.screen.fill((0, 0, 0))  # fill with black
         self.system.draw()  # draw system
         self.system.generate()  # generate
-        r"""
+
         if self.i <= 15:
-            pygame.image.save(self.screen, rf"PATH")
+            pygame.image.save(self.screen, rf"C:\Users\Sarper\Desktop\F\Sierpinski\sierpinski{self.i}.jpeg")
             self.i += 1
         else:
-            self.run = False"""
+            self.run = False
         pygame.display.flip()
 
 

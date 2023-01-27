@@ -27,14 +27,14 @@ class LSystem:
         self.length: int = length
         self.dtheta: float = rule.angle
         self.ratio: float = ratio
-        self.theta: float = math.pi / 2
+        self.theta: float = math.pi / 2 + math.radians(150)
         self.positions = []
 
     def generate(self) -> None:
         """Generate"""
         self.x, self.y = self.start
         self.length *= self.ratio
-        self.theta = math.pi / 2
+        self.theta = math.pi / 2 + math.radians(150)
         newAxiom = ""
         for char in self.axiom:
             mapped = char
