@@ -5,13 +5,15 @@ Defining LSystem
 import pygame, math
 from typing import Dict, List, Tuple
 from arts import _ArtData
+from tqdm import tqdm
 
 
 class LSystem:
     """LSystem class for generation string and drawing to the screen"""
 
     def __init__(self, screen, artData: _ArtData,
-                 length: int, n: int):
+                 length: int, n: int, preline: bool,
+                 iter_per_time: int):
         """
         :param name: name of the project
         :param screen: Screen of the simulation
@@ -20,6 +22,8 @@ class LSystem:
         :param length: Length of the lines
         :param angle: Angle of the movement
         :param ratio: Length ratio (length *= ratio for each Iteration)
+        :param preline: Drawing line path
+        :param iter_per_time: iteration of drawing per time
         """
         self.screen: pygame.Surface = screen
         self.axiom: str = artData.axiom
@@ -29,9 +33,11 @@ class LSystem:
         self.ratio: float = artData.ratio
         self.theta: float = math.pi / 2 + math.radians(150)
         self.positions: List[Dict[str, float]] = []
+        self.preline = preline
+        self.iter_per_time = iter_per_time
 
         self.width, self.height = self.screen.get_size()  # size of the screen
-        self.fractal_surface = pygame.Surface((self.width, self.height))
+        self.fractal_surface = pygame.Surface((self.width*3, self.height*3))
         self.x, self.y = self.width // 2, self.height // 2
         self.start: Tuple[int, int] = (self.x, self.y)
 
@@ -40,13 +46,22 @@ class LSystem:
         self.min_X = self.width * 10000
         self.min_Y = self.height * 1000
 
-        for i in range(n):
+        for i in tqdm(range(n)):
             self.generate()  # generate
-        self.track_positions()
-        self.w = self.max_X - self.min_X
-        self.h = self.max_Y - self.min_Y
-        print(self.w, self.h)
 
+        self.track_positions()
+        self.w, self.h = self.max_X-self.min_X, self.max_Y-self.min_Y
+
+        print(f"X: {self.max_X}, {self.min_X}")
+        print(f"Y: {self.max_Y}, {self.min_Y}")
+        print(f"Width: {self.w}")
+        print(f"height: {self.h}"),
+
+        if self.w > self.width or self.h > self.height:
+            print("Size is not optimal")
+
+
+        self.reset()
         self.fractal = self.draw_fractal_object()
 
         self.i = 0
@@ -74,14 +89,20 @@ class LSystem:
         """
         Get position
         """
-
-        for char in self.axiom:
+        for char in tqdm(self.axiom):
 
             if char == 'F' or char == 'G' or char == 'A' or char == 'B':
                 # set x2 and y2
                 x2 = self.x - self.length * math.cos(self.theta)
                 y2 = self.y - self.length * math.sin(self.theta)
+
+                if self.preline:
+                    pygame.draw.line(self.fractal_surface, (255, 255, 255),
+                                     (self.x, self.y), (x2, y2))
+
+
                 self.x, self.y = x2, y2
+
             elif char == "f" or char == "g" or char == "a" or char == "b":
                 # set x2 and y2
                 x2 = self.x - self.length * math.cos(self.theta)
@@ -110,7 +131,6 @@ class LSystem:
         """
         # set color and fractal Surface
         color = 0
-
         colorChange = 255 / (len(self.axiom) + 10)
 
         for char in self.axiom:
@@ -119,6 +139,7 @@ class LSystem:
                 # set x2 and y2
                 x2 = self.x - self.length * math.cos(self.theta)
                 y2 = self.y - self.length * math.sin(self.theta)
+
                 pygame.draw.line(self.fractal_surface, (color, 255 - color, 100 + color / 255),
                                  (self.x, self.y), (x2, y2))
                 self.x, self.y = x2, y2
@@ -146,22 +167,16 @@ class LSystem:
         """
         Draw fractal
         """
-        self.screen.fill((125, 125, 125))
         if self.i < len(self.axiom):
-            next(self.fractal)
+            try:
+                for _ in range(self.iter_per_time):
+                    next(self.fractal)
+            except:
+                pass
             self.i += 1
 
-        xy = ((self.width - self.w) // 2, (self.height - self.h) // 2)
-
-        """rect = pygame.rect.Rect(xy, (self.w, self.h))
-        pygame.draw.rect(self.screen, (255, 0, 0), rect)
-
-        start = pygame.rect.Rect(xy, (5, 5))
-        pygame.draw.rect(self.screen, (255, 255, 255), start)"""
-
         cropped = pygame.Surface((self.w, self.h))
-        cropped.blit(self.fractal_surface, (0, 0), (183, 209, self.w, self.h))
 
-        # cropped.blit(self.fractal_surface, (0, 0), (self.min_X - self.w, self.min_Y, self.w, self.h)) Sierpinski
-        # self.screen.blit(self.fractal_surface, (+self.w // 2, -self.h // 2))
-        self.screen.blit(cropped, xy)
+        cropped.blit(self.fractal_surface, (0, 0), (self.min_X, self.min_Y, self.w, self.h))
+        self.screen.blit(cropped, ((self.width-cropped.get_width())/2, (self.height-cropped.get_height())/2))
+

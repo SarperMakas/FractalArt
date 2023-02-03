@@ -18,8 +18,8 @@ class Main:
         """Initialize
         :rtype: Main Class of the simulation
         """
-        self.width: int = 500
-        self.height: int = 500
+        self.width: int = 750
+        self.height: int = 650
 
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Fractal Art")
@@ -32,10 +32,11 @@ class Main:
         self.lineLength = 40
         self.system: LSystem = self.set_system()
 
-        self.fps: int = 100
+        self.fps: int = 200
         self.clock = pygame.time.Clock()
         self.run: bool = True
         self.i = 0
+        self.simulation_run = False
 
     def set_system(self) -> LSystem:
         """
@@ -44,11 +45,13 @@ class Main:
         return: LSystem
         """
         # art_data = random.choice(Arts.arts)
-        art_data = Arts.Dragon
+        art_data = Arts.Plant
         lSystem = LSystem(screen=self.screen,
                           artData=art_data,
                           length=self.lineLength,
-                          n=3)
+                          n=8,
+                          preline=False,
+                          iter_per_time=50)
         return lSystem
 
     def event(self) -> None:
@@ -62,6 +65,8 @@ class Main:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.run = False
+                if event.key == pygame.K_SPACE:
+                    self.simulation_run = not self.simulation_run
 
     def main(self) -> None:
         """
@@ -78,20 +83,11 @@ class Main:
         """
         Everything will draw in this method
         """
-        self.screen.fill((0, 0, 0))  # fill with black
-        self.system.draw()  # draw system
-        r"""# self.system.draw()  # draw system
-        if self.i <= 5:
+        # self.screen.fill((0, 0, 0))  # fill with black
+        if self.simulation_run:
             self.system.draw()  # draw system
-           
 
-            # pygame.image.save(self.screen, rf"C:\Users\Sarper\Desktop\F\Sierpinski\sierpinski{self.i}.jpeg")
-            self.i += 1
-        else:
-            # self.run = False
-            self.system.reset()
-            self.system.draw()  # draw system"""
-
+        self.clock.tick(self.fps)
         pygame.display.flip()
 
 

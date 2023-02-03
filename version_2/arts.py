@@ -31,10 +31,10 @@ class Arts:
     The aim of this class is not using the .TXT file for scraping data
     instead of using variables of this class
     """
-    Tree: _ArtData = _ArtData("F", {"F": "FF+[+F-F-F]-[-F+F+F]"}, math.radians(30), 0.8)
+    Tree: _ArtData = _ArtData("F", {"F": "FF+[+F-F-F]-[-F+F+F]"}, math.radians(30), 0.65)
     Triangle: _ArtData = _ArtData("F+F+F", {"F": "F-F+F"}, math.radians(120), 0.8)
     Sierpinski: _ArtData = _ArtData("F-G-G", {"F": "F-G+F+G-F", "G": "GG"}, math.radians(120), 0.8)
-    Plant: _ArtData = _ArtData("X", {"X": "F+[[X]-X]-F[-FX]+X", "F": "FF"}, math.radians(25), 0.8)
+    Plant: _ArtData = _ArtData("X", {"X": "F+[[X]-X]-F[-FX]+X", "F": "FF"}, math.radians(25), 0.65)
     Dragon: _ArtData = _ArtData("FX", {"X": "X+YF+", "Y": "-FX-Y"}, math.radians(90), 0.8)
     Turtle: _ArtData = _ArtData("F-F-F-F", {"F": "F-F+F+FF-F-F+F"}, math.radians(90), 0.4)
 
