@@ -44,8 +44,7 @@ class Main:
 
         return: LSystem
         """
-        # art_data = random.choice(Arts.arts)
-        art_data = Arts.Plant
+        art_data = random.choice(Arts.arts)
         lSystem = LSystem(screen=self.screen,
                           artData=art_data,
                           length=self.lineLength,
