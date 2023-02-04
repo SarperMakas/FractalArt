@@ -39,3 +39,9 @@ class Arts:
     Turtle: _ArtData = _ArtData("F-F-F-F", {"F": "F-F+F+FF-F-F+F"}, math.radians(90), 0.4)
 
     arts: List[_ArtData] = [Tree, Triangle, Sierpinski, Plant, Dragon, Turtle]
+    arts_dict: Dict[str, _ArtData] = {"tree": Tree,
+                                      "triangle": Triangle,
+                                      "sierpinski": Sierpinski,
+                                      "plant": Plant,
+                                      "dragon": Dragon,
+                                      "turtle": Turtle}
