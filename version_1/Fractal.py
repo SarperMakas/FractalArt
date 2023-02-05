@@ -8,3 +8,4 @@ class Fractal:
     Sierpinski = "Sierpinski"
     Plant = "Plant"
     Dragon = "Dragon"
+    Turtle = "Turtle"

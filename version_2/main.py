@@ -19,7 +19,7 @@ class Main:
         """Initialize
         :rtype: Main Class of the simulation
         """
-        self.width: int = 750
+        self.width: int = 1000
         self.height: int = 650
 
         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -40,6 +40,7 @@ class Main:
         self.n = 4
         self.iter_per_time = 15
         self.random_system = True
+        self.pre_line = False
         self.choosen_system = ""
 
 
@@ -54,11 +55,12 @@ class Main:
         else:
             art_data = Arts.arts_dict[self.choosen_system.lower()]
 
+        print(self.n, self.pre_line, self.iter_per_time)
         lSystem = LSystem(screen=self.screen,
                           artData=art_data,
                           length=self.lineLength,
                           n=self.n,
-                          preline=False,
+                          preline=self.pre_line,
                           iter_per_time=self.iter_per_time)
         return lSystem
 
@@ -82,10 +84,16 @@ class Main:
                     raise Exception("iter_per_time")
 
                 try:
-                    self.random_system = True if sys.argv[3].lower() == "true" else False
+                    self.pre_line = True if sys.argv[3].lower() == "true" else False
+                except:
+                    print("Error with pre_line")
+                    raise Exception("pre_line")
+
+                try:
+                    self.random_system = True if sys.argv[4].lower() == "true" else False
 
                     if not self.random_system:
-                        self.choosen_system = sys.argv[4]
+                        self.choosen_system = sys.argv[5]
                     self.system: LSystem = self.set_system()
                 except:
                     print("Error with system choosing")
@@ -116,6 +124,7 @@ class Main:
                     self.run = False
                 if event.key == pygame.K_SPACE:
                     self.simulation_run = not self.simulation_run
+                    print(f"Simulation: {self.simulation_run}")
 
     def main(self) -> None:
         """

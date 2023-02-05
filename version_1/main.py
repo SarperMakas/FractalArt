@@ -40,14 +40,14 @@ class Main:
         Get chosen system of the simulation
         :return: system
         """
-        print("0. Triangle\n1. Plant\n2. Dragon\n3. Tree\n4. Sierpinski")
+        print("0. Triangle\n1. Plant\n2. Dragon\n3. Tree\n4. Sierpinski\n5. Turtle")
         fractalDict = {0: Fractal.Triangle, 1: Fractal.Plant,
-                            2: Fractal.Dragon, 3: Fractal.Tree, 4: Fractal.Sierpinski}
+                            2: Fractal.Dragon, 3: Fractal.Tree, 4: Fractal.Sierpinski, 5: Fractal.Turtle}
         num = 0
         while True:
             try:
                 num = int(input("Enter fractal number: "))
-                if 0 <= num <= 4:
+                if 0 <= num <= 5:
                     break
             except:
                 pass
@@ -122,11 +122,11 @@ class Main:
         self.system.draw()  # draw system
         self.system.generate()  # generate
 
-        if self.i <= 15:
+        r"""if self.i <= 15:
             pygame.image.save(self.screen, rf"C:\Users\Sarper\Desktop\F\Sierpinski\sierpinski{self.i}.jpeg")
             self.i += 1
         else:
-            self.run = False
+            self.run = False"""
         pygame.display.flip()
 
 

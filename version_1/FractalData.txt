@@ -4,3 +4,4 @@ Triangle,F+F+F,1,F F-F+F,120
 Sierpinski,F-G-G,2,F F-G+F+G-F,G GG,120
 Plant,X,2,X F+[[X]-X]-F[-FX]+X,F FF,25
 Dragon,FX,2,X X+YF+,Y -FX-Y,90
+Turtle,F-F-F-F,1,F F-F+F+FF-F-F+F,90

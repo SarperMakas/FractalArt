@@ -65,6 +65,7 @@ class LSystem:
         self.fractal = self.draw_fractal_object()
 
         self.i = 0
+        self.r = 0
 
     def reset(self):
         """Reset values"""
@@ -179,4 +180,3 @@ class LSystem:
 
         cropped.blit(self.fractal_surface, (0, 0), (self.min_X, self.min_Y, self.w, self.h))
         self.screen.blit(cropped, ((self.width-cropped.get_width())/2, (self.height-cropped.get_height())/2))
-
